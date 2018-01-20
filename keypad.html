@@ -1,0 +1,162 @@
+<!-- 
+Widget Keypad 
+for openHAB
+Lucky Mallari 2018
+-->
+<form name="_gkw" ng-init="config.marginPx = (config.marginPx < 0 ? 0 : config.marginPx)">
+  <style>
+    .genericKeypadWidget {
+    	display: flex;
+    	flex-wrap: wrap;
+    	flex: 0 1 100%;
+    	width: 100%;
+    	height: 100%;
+    	position: absolute;
+    	top: 0;
+    	left: 0;
+    	padding: {{config.marginPx / 2}}px;
+    }
+    
+    .genericKeypadWidget button {
+    	outline: none;
+    }
+    
+    .genericKeypadWidget .keys {
+    	display: flex;
+      flex: 0 1 100%;
+    	overflow: hidden;
+      flex-wrap: wrap;
+    	height: 100%;
+    }
+  
+    .genericKeypadWidget .key {
+    	margin: {{config.marginPx / 2}}px;
+      flex: 1;
+    	flex-basis: calc(33% - {{config.marginPx}}px - 1px);
+    	break-inside: avoid;
+      justify-content: center;
+      align-items: center;
+			font-size: {{config.keyFontSize}};
+      border: none;
+      cursor: pointer;
+			background: {{config.btnKeysBgColor}};
+    	overflow: hidden;
+    	height: calc({{config.isShowOutputBox?'20%':'25%'}} - {{config.marginPx}}px);
+    	position: relative;
+    	border-radius: {{config.btnBorderRadius}};
+    }
+    
+    .genericKeypadWidget .key:not(:disabled)::after {
+  		content: '';
+		  position: absolute;
+  		top: 50%;
+  		left: 50%;
+  		width: 5px;
+  		height: 5px;
+  		background: rgba(255, 255, 255, .5);
+  		opacity: 0;
+  		border-radius: 100%;
+  		transform: scale(1, 1) translate(-50%);
+  		transform-origin: 50% 50%;
+    }
+    
+    .genericKeypadWidget .key:focus:not(:active)::after {
+  		animation: ripple 1s ease-out;
+		}
+    
+    .genericKeypadWidget .key.outputBox {
+      display: flex;
+    	margin: {{config.marginPx / 2}}px;
+    	flex-basis: 100%;
+      justify-content: {{config.outputBoxTextAlign == 'right' ? 'flex-end': config.outputBoxTextAlign}};
+      align-items: center;
+      font-size: {{config.outputBoxFontSize}};
+      background: #000;
+      color: #fff;
+      flex-basis: 100%;
+    	position: relative;
+    	pointer-events: {{ config.isOutputBoxClickable ? 'auto' : 'none' }};
+		}    
+    
+    .genericKeypadWidget .key.btn_disabled::after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background: rgba(0,0,0,.65);
+     	margin: 0px;
+    	border-radius: {{config.btnBorderRadius}};
+     }    
+    
+    .genericKeypadWidget input.noshow {
+      display: none;
+    }
+
+    .genericKeypadWidget .key.btn_ok {
+			background: {{config.btnOkBgColor}};
+    }
+		
+    .genericKeypadWidget .key.btn_del {
+    	background: {{config.btnDelBgColor}};
+     }       
+    
+    .genericKeypadWidget .key.btn_clr {
+    	display: flex;
+    	position: absolute;
+    	top: 0;
+    	left: 0;
+    	background: rgba(0,0,0,0.15);
+    	height: 100%;
+    	align-items: center;
+    	font-size: 1.5vh;
+    	pointer-events: auto;
+    	margin: 0;
+    	padding: 10px;
+    }
+    
+    @keyframes ripple {
+        0% {
+            transform: scale(0, 0);
+            opacity: 1;
+        }
+        20% {
+            transform: scale(25, 25);
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: scale(40, 40);
+        }
+    }    
+  </style>
+
+  <div class="genericKeypadWidget" ng-init="gwk_data={ current: '' }">
+    <input type="password" class="noshow" name="current" ng-model="gwk_data.current" required="true"></input>
+    <div class="keys">
+      <div class="key outputBox" contenteditable="true" ng-if="config.isShowOutputBox">
+      	<span class="outputBoxText" ng-repeat="letter in gwk_data.current.split('') track by $index">{{config.isMaskOutputBox ? config.maskChar : letter}}</span>
+      	<button class="key btn_clr" contenteditable="false" ng-if="_gkw.current.$valid" ng-click="gwk_data.current=''">{{config.text_btnClear}}</button>
+    	</div>
+
+      <button class="key" ng-click="gwk_data.current = gwk_data.current + '1'">1</button>
+      <button class="key" ng-click="gwk_data.current = gwk_data.current + '2'">2</button>
+      <button class="key" ng-click="gwk_data.current = gwk_data.current + '3'">3</button>
+
+      <button class="key" ng-click="gwk_data.current = gwk_data.current + '4'">4</button>
+      <button class="key" ng-click="gwk_data.current = gwk_data.current + '5'">5</button>
+      <button class="key" ng-click="gwk_data.current = gwk_data.current + '6'">6</button>
+
+      <button class="key" ng-click="gwk_data.current = gwk_data.current + '7'">7</button>
+      <button class="key" ng-click="gwk_data.current = gwk_data.current + '8'">8</button>
+      <button class="key" ng-click="gwk_data.current = gwk_data.current + '9'">9</button>
+
+      <button class="key btn_del" ng-class="{'btn_disabled':_gkw.current.$invalid}" ng-click="gwk_data.current = gwk_data.current.slice(0,-1)" ng-disabled="_gkw.current.$invalid" title="Hold to clear">{{config.text_del}}</button>
+      <button class="key" ng-click="gwk_data.current = gwk_data.current + '0'">0</button>
+      <button class="key btn_ok" ng-class="{'btn_disabled':_gkw.current.$invalid}" ng-click="sendCmd(config.keypadReceiver, gwk_data.current); (config.isClearOnSubmit && (gwk_data.current='') || true)" ng-disabled="_gkw.current.$invalid" title="Submit">{{config.text_ok}}</button>
+
+    </div>
+  </div>
+</form>
+
