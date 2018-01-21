@@ -39,5 +39,5 @@ Settings are self-explanatory so I will only provide comments on the ones that a
 
   
 #### Discussion
-https://community.openhab.org/t/custom-widget-keypad/18154
+Discussion in [openHAB Forums](https://community.openhab.org/t/widget-universal-keypad/39002)
 
