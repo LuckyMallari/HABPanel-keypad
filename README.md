@@ -19,9 +19,6 @@
 ### Customizable
 ![openhab_widget_keypad_settings|276x500](https://community-openhab-org.s3-eu-central-1.amazonaws.com/original/3X/0/1/01eecc4ef9051a37996bd203b5430d5e82514c65.png)
 
-### Customizable
-![openhab_widget_keypad_settings|276x500](upload://h66coaaRrK2556wHtTDVeO9u8B.png)
-
 #### Code
 _You can stylize t he keypad based on class names
 Find the class names through the git repo_
