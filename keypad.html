@@ -23,23 +23,23 @@ Lucky Mallari 2018
     
     .genericKeypadWidget .keys {
     	display: flex;
-      flex: 0 1 100%;
+		flex: 0 1 100%;
     	overflow: hidden;
-      flex-wrap: wrap;
+		flex-wrap: wrap;
     	height: 100%;
     }
   
     .genericKeypadWidget .key {
     	margin: {{config.marginPx / 2}}px;
-      flex: 1;
+		flex: 1;
     	flex-basis: calc(33% - {{config.marginPx}}px - 1px);
     	break-inside: avoid;
-      justify-content: center;
-      align-items: center;
-			font-size: {{config.keyFontSize}};
-      border: none;
-      cursor: pointer;
-			background: {{config.btnKeysBgColor}};
+		justify-content: center;
+		align-items: center;
+		font-size: {{config.keyFontSize}};
+		border: none;
+		cursor: pointer;
+		background: {{config.btnKeysBgColor}};
     	overflow: hidden;
     	height: calc({{config.isShowOutputBox?'20%':'25%'}} - {{config.marginPx}}px);
     	position: relative;
@@ -48,7 +48,7 @@ Lucky Mallari 2018
     
     .genericKeypadWidget .key:not(:disabled)::after {
   		content: '';
-		  position: absolute;
+		position: absolute;
   		top: 50%;
   		left: 50%;
   		width: 5px;
@@ -62,45 +62,45 @@ Lucky Mallari 2018
     
     .genericKeypadWidget .key:focus:not(:active)::after {
   		animation: ripple 1s ease-out;
-		}
+	}
     
     .genericKeypadWidget .key.outputBox {
-      display: flex;
+		display: flex;
     	margin: {{config.marginPx / 2}}px;
     	flex-basis: 100%;
-      justify-content: {{config.outputBoxTextAlign == 'right' ? 'flex-end': config.outputBoxTextAlign}};
-      align-items: center;
-      font-size: {{config.outputBoxFontSize}};
-      background: #000;
-      color: #fff;
-      flex-basis: 100%;
+		justify-content: {{config.outputBoxTextAlign == 'right' ? 'flex-end': config.outputBoxTextAlign}};
+		align-items: center;
+		font-size: {{config.outputBoxFontSize}};
+		background: #000;
+		color: #fff;
+		flex-basis: 100%;
     	position: relative;
     	pointer-events: {{ config.isOutputBoxClickable ? 'auto' : 'none' }};
-		}    
+	}    
     
     .genericKeypadWidget .key.btn_disabled::after {
-      content: '';
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      background: rgba(0,0,0,.65);
+		content: '';
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		background: rgba(0,0,0,.65);
      	margin: 0px;
     	border-radius: {{config.btnBorderRadius}};
-     }    
+    }    
     
     .genericKeypadWidget input.noshow {
-      display: none;
+		display: none;
     }
 
     .genericKeypadWidget .key.btn_ok {
-			background: {{config.btnOkBgColor}};
+		background: {{config.btnOkBgColor}};
     }
 		
     .genericKeypadWidget .key.btn_del {
     	background: {{config.btnDelBgColor}};
-     }       
+    }       
     
     .genericKeypadWidget .key.btn_clr {
     	display: flex;
@@ -133,7 +133,7 @@ Lucky Mallari 2018
   </style>
 
   <div class="genericKeypadWidget" ng-init="gwk_data={ current: '' }">
-    <input type="password" class="noshow" name="current" ng-model="gwk_data.current" required="true"></input>
+    <input type="text" class="noshow" name="current" ng-model="gwk_data.current" required="true"></input>
     <div class="keys">
       <div class="key outputBox" contenteditable="true" ng-if="config.isShowOutputBox">
       	<span class="outputBoxText" ng-repeat="letter in gwk_data.current.split('') track by $index">{{config.isMaskOutputBox ? config.maskChar : letter}}</span>
